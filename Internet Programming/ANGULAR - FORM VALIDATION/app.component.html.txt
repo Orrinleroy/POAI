@@ -1,0 +1,36 @@
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)" novalidate>
+  <div>
+    <label for="email">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      ngModel
+      #email="ngModel"
+      required
+      pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+    />
+    <div *ngIf="email.invalid && email.touched">
+      <small *ngIf="email.errors?.['required']">Email is required.</small>
+      <small *ngIf="email.errors?.['pattern']">Please enter a valid email address.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      ngModel
+      #password="ngModel"
+      required
+      minlength="8"
+    />
+    <div *ngIf="password.invalid && password.touched">
+      <small *ngIf="password.errors?.['required']">Password is required.</small>
+      <small *ngIf="password.errors?.['minlength']">Password must be at least 8 characters long.</small>
+    </div>
+  </div>
+  <button type="submit" [disabled]="loginForm.invalid">Submit</button>
+</form>

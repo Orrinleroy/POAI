@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 350px;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input[type=text]:focus {
+  border-color: #66a6ff;
+  box-shadow: 0 0 8px rgba(102, 166, 255, 0.4);
+  outline: none;
+}
+
+input[type=submit] {
+  background-color: #66a6ff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+input[type=submit]:hover {
+  background-color: #89f7fe;
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  background-color: #f1f1f1; 
+}
+
+
+.autocomplete-active {
+  background-color: #66a6ff !important; 
+  color: #ffffff; 
+}
+</style>
+</head>     
+<body>
+
+<div class="container">
+  <h2>Autocomplete</h2>
+  <p>Start typing a country name:</p>
+
+  <form autocomplete="off">
+    <div class="autocomplete">                           
+      <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    </div>
+    <input type="submit">
+  </form>
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>

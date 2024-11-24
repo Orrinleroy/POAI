@@ -1,0 +1,69 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "banking_db");
+
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['addCustomer'])) {
+        $conn->query("INSERT INTO CUSTOMER (Customer_ID, Customer_Name) VALUES ('$_POST[customer_id]', '$_POST[customer_name]')") ? 
+            print("New customer created successfully<br>") : print("Error: " . $conn->error);
+    }
+    if (isset($_POST['addAccount'])) {
+        $account_type = strtoupper($_POST["account_type"]);
+        if (!in_array($account_type, ['S', 'C'])) {
+            print("Invalid account type. Enter 'S' or 'C'.<br>");
+        } else {
+            $conn->query("INSERT INTO ACCOUNT (Account_NO, Account_Type, BALANCE, Customer_ID) 
+                        VALUES ('$_POST[account_no]', '$account_type', '$_POST[balance]', '$_POST[customer_id]')")
+            ? print("New account created successfully<br>") : print("Error: " . $conn->error);
+        }
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET['displayCustomer'])) {
+        $result = $conn->query("SELECT * FROM CUSTOMER WHERE Customer_ID = '$_GET[customer_id]'");
+        echo $result->num_rows > 0 ? "Customer found: " . $result->fetch_assoc()['Customer_Name'] : "No customer found.<br>";
+    }
+
+    if (isset($_GET['displayAccount'])) {
+        $result = $conn->query("SELECT * FROM ACCOUNT WHERE Account_NO = '$_GET[account_no]'");
+        echo $result->num_rows > 0 ? "Account found: " . $result->fetch_assoc()['Account_Type'] : "No account found.<br>";
+    }
+}
+
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Add Customer</h2>
+<form method="post">
+  Customer ID: <input type="text" name="customer_id" required><br><br>
+  Customer Name: <input type="text" name="customer_name" required><br><br>
+  <input type="submit" name="addCustomer" value="Add Customer">
+</form>
+
+<h2>Add Account</h2>
+<form method="post">
+  Account Number: <input type="text" name="account_no" required><br><br>
+  Account Type (S/C): <input type="text" name="account_type" required><br><br>
+  Balance: <input type="text" name="balance" required><br><br>
+  Customer ID: <input type="text" name="customer_id" required><br><br>
+  <input type="submit" name="addAccount" value="Add Account">
+</form>
+
+<h2>Display Customer Info</h2>
+<form method="get">
+  Customer ID: <input type="text" name="customer_id" required><br><br>
+  <input type="submit" name="displayCustomer" value="Display Customer">
+</form>
+
+<h2>Display Account Info</h2>
+<form method="get">
+  Account Number: <input type="text" name="account_no" required><br><br>
+  <input type="submit" name="displayAccount" value="Display Account">
+</form>
+</body>
+</html>

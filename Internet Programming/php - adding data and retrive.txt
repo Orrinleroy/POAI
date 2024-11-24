@@ -1,0 +1,44 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "empp");
+
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+    $empno = $_POST['empno'];
+    $name = $_POST['name'];
+
+    $sql = "INSERT INTO emp VALUES ('$empno', '$name')";
+
+    if($conn->query($sql) === TRUE){
+        $success =  "Inserted";
+    }
+    else {
+        $success =  "error";
+    }
+}
+
+$result = $conn->query("SELECT * FROM emp");
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<bod>
+    <form method = "post">
+        <input type = "text" name = "empno" placeholder = "Employee Number">
+        <input type = "text" name = "name" placeholder = "Employee Name">
+        <input type = "submit" value = "Submit">
+    </form>
+<?php if(isset($success)):?>
+    <p><?php echo $success; ?></p>
+<?php endif; ?>
+
+    <p>EMP List</p>
+    <?php while($row = $result->fetch_assoc()):?>
+        <p><?php echo "EMP NUMBER".$row['empno'] . "- EMP NAME".$row['name']; ?></p>
+        <?php endwhile;?>
+</body>
+</html>
+<?php $conn->close();?>
